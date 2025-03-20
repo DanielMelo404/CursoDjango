@@ -10,3 +10,11 @@ discusiones = [
 def home(request):
     context = {"conversaciones":discusiones}
     return render(request,'home.html',context)
+
+
+def discusion(request,pk):
+    for discusion_i in discusiones:
+        if discusion_i['id'] == int(pk):
+            context ={'discusion_frontend': discusion_i}
+
+    return render(request,'core/discusion.html',context)

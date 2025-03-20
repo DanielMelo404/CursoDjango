@@ -3,7 +3,7 @@
 
 {% for conversacion in  conversaciones %}
     <h5>{{conversacion.id}}</h5>
-    <h3>{{conversacion.titulo}}</h3>
+    <a href="{% url 'discusion' conversacion.id %}"><h3>{{conversacion.titulo}}</h3></a>
     <hr>
 {% endfor %}
     
