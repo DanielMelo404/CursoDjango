@@ -1,4 +1,4 @@
-# Curso de Django 
+# Curso basico de Django 
 ## Por: Daniel Melo Avila
 
 ### Tarea sugerida:
