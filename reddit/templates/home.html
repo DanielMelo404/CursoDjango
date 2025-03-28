@@ -1,5 +1,9 @@
-<h1>Home</h1>
+{% extends 'main.html' %}
 
+
+{% block content %}
+
+<a href="{% url 'crear-discusion' %}">Crear discusion</a>
 
 {% for conversacion in  conversaciones %}
     <h5>{{conversacion.id}}</h5>
@@ -7,5 +11,9 @@
     <hr>
 {% endfor %}
     
+    
+{% endblock content %}
+    
+
 
 

@@ -15,8 +15,8 @@ class Discusion(models.Model):
     titulo = models.CharField(max_length=200)
     descripcion = models.TextField(null=True,blank=True)
 
-    created = models.DateTimeField(default=timezone.now)
-    updated = models.DateTimeField(default=timezone.now)
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.titulo
@@ -26,8 +26,8 @@ class Comentario(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     discusion = models.ForeignKey(Discusion, on_delete=models.CASCADE)
     text = models.TextField(null=False,default=' ')
-    created = models.DateTimeField(default=timezone.now)
-    updated = models.DateTimeField(default=timezone.now)
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
     
     def __str__(self):
         return self.text[0:50]
