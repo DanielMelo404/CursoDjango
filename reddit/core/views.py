@@ -7,8 +7,14 @@ from django.contrib import messages
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.models import User
-
+from django.db.models import Q
 def home(request):
+    q = request.GET.get('q') if request.GET.get('q') != None else ''
+
+    discusiones = Discusion.objects.filter(Q(titulo__icontains = q) | 
+                                           Q(descripcion__icontains=q))
+    
+
     discusiones = Discusion.objects.all()
     topicos = Topico.objects.all()
 
@@ -29,6 +35,8 @@ def crear_discusion(request):
     if request.method == "POST":
         form = FormularioDiscusion(request.POST)
         if form.is_valid():
+            form = form.save(commit=False)
+            form.user = request.user 
             form.save()
             return redirect('home')
 
@@ -45,6 +53,50 @@ def update_discusion(request,pk):
         return redirect('home')
 
     return render(request, 'core/form_discusion.html', context)
+
+def registrar(request):
+
+    form = UserCreationForm()
+
+    context = {'form':form}
+
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+
+        if form.is_valid():
+            user = form.save(commit=False)
+            user.username = user.username.lower()
+            user.save()
+            login(request, user)
+            return redirect('home')
+        else:
+            messages.error(request, "Error en datos de registro")
+
+
+    return render(request, 'core/login_registro.html', context)
+
+
+
+
+
+
+
+
+
+
+    logout(request)
+
+
+
+
+
+
+
+
+
+
+
+
 
 def registrar(request):
     if request.user.is_authenticated:

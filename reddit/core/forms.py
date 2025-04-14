@@ -5,6 +5,7 @@ class FormularioDiscusion(ModelForm):
     class Meta:
         model = Discusion
         fields = '__all__' 
+        exclude = ['user']
 
 
 # class MyUserCreationForm(UserCreationForm):

@@ -1,47 +1,777 @@
-{% extends 'main.html' %}
-
-
-{% block content %}
-
-<style>
-    .home-container {
-        display: grid;
-        grid-template-columns: 1fr 3fr;
-    }
-</style>
-
-<a href="{% url 'crear-discusion' %}">Crear discusion</a>
-
-<div class="home-container">
-    <div>
-        <h3>Categorias:</h3>
-        <hr>
-        
-        {% for topic in topics %}
-        
-        <div>
-            <a href="{% url 'home' %}?q={{topic}}"><h5>{{topic}}</h5></a>
-        </div>
-            
-        {% endfor %}
-            
-
-    </div>
-
-    <div>
-
-        {% for conversacion in  conversaciones %}
+<!DOCTYPE html>
+{% load static  %}
+<!-- saved from url=(0083)https://templates.iqonic.design/product/lite/socialv/html/dist/dashboard/index.html -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     
-        <h5>{{conversacion.id}}</h5>
-        <a href="{% url 'discusion' conversacion.id %}"><h3>{{conversacion.titulo}}</h3></a>
-        <hr>
-        {% endfor %}
-    </div>
+      <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+      <title>SocialV | Responsive Bootstrap 5 Admin Dashboard Template</title>
+      
+      <link rel="shortcut icon" href="https://templates.iqonic.design/product/lite/socialv/html/dist/assets/images/favicon.ico">
+      <link rel="stylesheet" href="{% static 'css/index_files/libs.min.css' %}."> 
+      <link rel="stylesheet" href="{% static 'css/index_files/socialv.css' %}"> 
+      <link rel="stylesheet" href="{% static 'css/index_files/all.min.css' %}">
+      <link rel="stylesheet" href="{% static 'css/index_files/remixicon.css' %}">
+      <link rel="stylesheet" href="{% static 'css/index_files/datepicker.min.css' %}">
+      <link rel="stylesheet" href="{% static 'css/index_files/all(1).min.css' %}">
+      <link rel="stylesheet" href="{% static 'css/index_files/line-awesome.min.css' %}">
+      <link href="https://cdn.jsdelivr.net/npm/remixicon/fonts/remixicon.css" rel="stylesheet">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/line-awesome/1.3.0/line-awesome/css/line-awesome.min.css">
 
+      
+      <!-- Google Tag Manager -->
+
+      <script async="" src="{% static 'css/index_files/fbevents.js.download' %}"></script><script async="" src="{% static 'css/index_files/gtm.js.download' %}"></script><script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+      new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+      j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+      'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+      })(window,document,'script','dataLayer','GTM-WNGH9RL');window.tag_manager_event='dashboard-free-preview';window.tag_manager_product='SocialV';</script>
+      <!-- End Google Tag Manager -->
+  <style id="smooth-scrollbar-style">
+[data-scrollbar] {
+  display: block;
+  position: relative;
+}
+
+.scroll-content {
+  display: flow-root;
+  -webkit-transform: translate3d(0, 0, 0);
+          transform: translate3d(0, 0, 0);
+}
+
+.scrollbar-track {
+  position: absolute;
+  opacity: 0;
+  z-index: 1;
+  background: rgba(222, 222, 222, .75);
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+  -webkit-transition: opacity 0.5s 0.5s ease-out;
+          transition: opacity 0.5s 0.5s ease-out;
+}
+.scrollbar-track.show,
+.scrollbar-track:hover {
+  opacity: 1;
+  -webkit-transition-delay: 0s;
+          transition-delay: 0s;
+}
+
+.scrollbar-track-x {
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 8px;
+}
+.scrollbar-track-y {
+  top: 0;
+  right: 0;
+  width: 8px;
+  height: 100%;
+}
+.scrollbar-thumb {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 8px;
+  height: 8px;
+  background: rgba(0, 0, 0, .5);
+  border-radius: 4px;
+}
+</style></head>
+  <body class="">
+    <!-- loader Start -->
+    <div id="loading" style="display: none;">
+          <div id="loading-center">
+          </div>
+    </div>
+    <!-- loader END -->
+    <!-- Wrapper Start -->
+    <div class="wrapper">
+      <div class="iq-sidebar  sidebar-default ">
+          <div id="sidebar-scrollbar" data-scrollbar="true" tabindex="-1" style="overflow: hidden; outline: none;"><div class="scroll-content">
+              <nav class="iq-sidebar-menu">
+                  <ul id="iq-sidebar-toggle" class="iq-menu">
+                      <li class="active">
+                          <a href="https://templates.iqonic.design/product/lite/socialv/html/dist/dashboard/index.html" class=" "> 
+                              <i class="las la-newspaper"></i><span>Newsfeed</span>
+                          </a>
+                      </li>
+                      <li class="">
+                         <a href="https://templates.iqonic.design/product/lite/socialv/html/dist/app/profile.html" class=" ">
+                             <i class="las la-user"></i><span>Profile</span>
+                          </a>
+                      </li>
+                      <li class="">
+                         <a href="https://templates.iqonic.design/product/lite/socialv/html/dist/app/group.html" class=" ">
+                             <i class="las la-users"></i><span>Group</span>
+                          </a>
+                      </li>
+                      <li class=" ">
+                          <a href="https://templates.iqonic.design/product/lite/socialv/html/dist/app/todo.html" class=" ">
+                              <i class="las la-check-circle"></i><span>Todo</span>
+                          </a>
+                      </li>
+                      <li class=" ">
+                         <a href="https://templates.iqonic.design/product/lite/socialv/html/dist/dashboard/calendar.html" class=" ">
+                             <i class="las la-calendar"></i><span>Calendar</span>
+                          </a>
+                      </li>
+                      <li class=" ">
+                          <a href="https://templates.iqonic.design/product/lite/socialv/html/dist/dashboard/index.html#mailbox" data-bs-toggle="collapse" class="  collapsed" aria-expanded="false">
+                              <i class="ri-mail-line"></i><span>Email</span><i class="ri-arrow-right-s-line iq-arrow-right"></i>
+                          </a>
+                          <ul id="mailbox" class="iq-submenu collapse" data-bs-parent="#iq-sidebar-toggle">
+                              <li class="">
+                                  <a href="https://templates.iqonic.design/product/lite/socialv/html/dist/app/email.html"><i class="  ri-inbox-line"></i>Inbox</a>
+                              </li>
+                              <li class="">
+                                  <a href="https://templates.iqonic.design/product/lite/socialv/html/dist/app/email-compose.html"><i class="ri-edit-line"></i>Email Compose</a>
+                              </li>
+                          </ul>
+                      </li>
+                       <li class="">
+                          <a href="https://templates.iqonic.design/product/lite/socialv/html/dist/dashboard/index.html#ui-elements" data-bs-toggle="collapse" class="  collapsed" aria-expanded="false"><i class="ri-focus-2-line"></i><span>Ui-Elements</span><i class="ri-arrow-right-s-line iq-arrow-right"></i></a>
+                          <ul id="ui-elements" class="iq-submenu collapse" data-bs-parent="#iq-sidebar-toggle">
+                              <li class="">
+                                  <a href="https://templates.iqonic.design/product/lite/socialv/html/dist/dashboard/index.html#ui-kit" data-bs-toggle="collapse" class="  collapsed" aria-expanded="false"><i class="ri-pencil-ruler-line"></i><span>UI Kit</span><i class="ri-arrow-right-s-line iq-arrow-right"></i></a>
+                                  <ul id="ui-kit" class="iq-submenu collapse" data-bs-parent="#ui-elements">
+                                      <li class="">
+                                          <a href="https://templates.iqonic.design/product/lite/socialv/html/dist/dashboard/ui-color.html"><i class="ri-font-color"></i>Colors</a>
+                                      </li>
+                                      <li class=" ">
+                                          <a href="https://templates.iqonic.design/product/lite/socialv/html/dist/dashboard/ui-typography.html"><i class="ri-text"></i>Typography</a>
+                                      </li>
+                                      <li class="">
+                                          <a href="https://templates.iqonic.design/product/lite/socialv/html/dist/dashboard/ui-alerts.html"><i class="ri-alert-line"></i>Alerts</a>
+                                      </li>
+                                      <li class="">
+                                          <a href="https://templates.iqonic.design/product/lite/socialv/html/dist/dashboard/ui-badges.html"><i class="ri-building-3-line"></i>Badges</a>
+                                      </li>
+                                      <li class="">
+                                          <a href="https://templates.iqonic.design/product/lite/socialv/html/dist/dashboard/ui-breadcrumb.html"><i class="ri-menu-2-line"></i>Breadcrumb</a>
+                                      </li>
+                                      <li class="">
+                                          <a href="https://templates.iqonic.design/product/lite/socialv/html/dist/dashboard/ui-buttons.html"><i class="ri-checkbox-blank-line"></i>Buttons</a>
+                                      </li>
+                                      <li class="">
+                                          <a href="https://templates.iqonic.design/product/lite/socialv/html/dist/dashboard/ui-cards.html"><i class="ri-bank-card-line"></i>Cards</a>
+                                      </li>
+                                      <li class="">
+                                          <a href="https://templates.iqonic.design/product/lite/socialv/html/dist/dashboard/ui-carousel.html"><i class="ri-slideshow-line"></i>Carousel</a>
+                                      </li>
+                                      <li class="">
+                                          <a href="https://templates.iqonic.design/product/lite/socialv/html/dist/dashboard/ui-embed-video.html"><i class="ri-slideshow-2-line"></i>Video</a>
+                                      </li>
+                                      <li class="">
+                                          <a href="https://templates.iqonic.design/product/lite/socialv/html/dist/dashboard/ui-grid.html"><i class="ri-grid-line"></i>Grid</a>
+                                      </li>
+                                      <li class="">
+                                          <a href="https://templates.iqonic.design/product/lite/socialv/html/dist/dashboard/ui-images.html"><i class="ri-image-line"></i>Images</a>
+                                      </li>
+                                      <li class="">
+                                          <a href="https://templates.iqonic.design/product/lite/socialv/html/dist/dashboard/ui-list-group.html"><i class="ri-file-list-3-line"></i>list
+                                              Group</a>
+                                      </li>
+                                      <li class="">
+                                          <a href="https://templates.iqonic.design/product/lite/socialv/html/dist/dashboard/ui-modal.html"><i class="ri-stop-mini-line"></i>Modal</a>
+                                      </li>
+                                      <li class="">
+                                          <a href="https://templates.iqonic.design/product/lite/socialv/html/dist/dashboard/ui-notifications.html"><i class="ri-notification-line"></i>Notifications</a>
+                                      </li>
+                                      <li class="">
+                                          <a href="https://templates.iqonic.design/product/lite/socialv/html/dist/dashboard/ui-pagination.html"><i class="ri-pages-line"></i>Pagination</a>
+                                      </li>
+                                      <li class="">
+                                          <a href="https://templates.iqonic.design/product/lite/socialv/html/dist/dashboard/ui-popovers.html"><i class="ri-folder-shield-2-line"></i>Popovers</a>
+                                      </li>
+                                      <li class="">
+                                          <a href="https://templates.iqonic.design/product/lite/socialv/html/dist/dashboard/ui-progressbars.html"><i class="ri-battery-low-line"></i>Progressbars</a>
+                                      </li>
+                                      <li class="">
+                                          <a href="https://templates.iqonic.design/product/lite/socialv/html/dist/dashboard/ui-tabs.html"><i class="ri-database-line"></i>Tabs</a>
+                                      </li>
+                                      <li class="">
+                                          <a href="https://templates.iqonic.design/product/lite/socialv/html/dist/dashboard/ui-tooltips.html"><i class="ri-record-mail-line"></i>Tooltips</a>
+                                      </li>
+                                  </ul>
+                              </li>
+                              <li class="">
+                                  <a href="https://templates.iqonic.design/product/lite/socialv/html/dist/dashboard/index.html#forms" class="  collapsed" data-bs-toggle="collapse" aria-expanded="false"><i class="ri-profile-line"></i><span>Forms</span><i class="ri-arrow-right-s-line iq-arrow-right"></i></a>
+                                  <ul id="forms" class="iq-submenu collapse" data-bs-parent="#ui-elements">
+                                      <li class="">
+                                          <a href="https://templates.iqonic.design/product/lite/socialv/html/dist/dashboard/form-layout.html"><i class="ri-tablet-line"></i>Form Elements</a>
+                                      </li>
+                                      <li class="">
+                                          <a href="https://templates.iqonic.design/product/lite/socialv/html/dist/dashboard/form-validation.html"><i class="ri-device-line"></i>Form
+                                              Validation</a></li>
+                                      <li class="">
+                                          <a href="https://templates.iqonic.design/product/lite/socialv/html/dist/dashboard/form-switch.html"><i class="ri-toggle-line"></i>Form Switch</a>
+                                      </li>
+                                      <li class="">
+                                          <a href="https://templates.iqonic.design/product/lite/socialv/html/dist/dashboard/form-chechbox.html"><i class="ri-checkbox-line"></i>Form
+                                              Checkbox</a></li>
+                                      <li class="">
+                                          <a href="https://templates.iqonic.design/product/lite/socialv/html/dist/dashboard/form-radio.html"><i class="ri-radio-button-line"></i>Form Radio</a>
+                                      </li>
+                                  </ul>
+                              </li>
+                              <li class="">
+                                  <a href="https://templates.iqonic.design/product/lite/socialv/html/dist/dashboard/index.html#wizard-form" class="  collapsed" data-bs-toggle="collapse" aria-expanded="false"><i class="ri-archive-drawer-line"></i><span>Forms
+                                          Wizard</span><i class="ri-arrow-right-s-line iq-arrow-right"></i></a>
+                                  <ul id="wizard-form" class="iq-submenu collapse" data-bs-parent="#ui-elements">
+                                      <li class="">
+                                          <a href="https://templates.iqonic.design/product/lite/socialv/html/dist/dashboard/form-wizard.html"><i class="ri-clockwise-line"></i>Simple Wizard</a>
+                                      </li>
+                                      <li class="">
+                                          <a href="https://templates.iqonic.design/product/lite/socialv/html/dist/dashboard/form-wizard-validate.html"><i class="ri-clockwise-2-line"></i>Validate Wizard</a>
+                                      </li>
+                                      <li class="">
+                                          <a href="https://templates.iqonic.design/product/lite/socialv/html/dist/dashboard/form-wizard-vertical.html"><i class="ri-anticlockwise-line"></i>Vertical Wizard</a>
+                                      </li>
+                                  </ul>
+                              </li>
+                              <li class="">
+                                  <a href="https://templates.iqonic.design/product/lite/socialv/html/dist/dashboard/index.html#tables" class="  collapsed" data-bs-toggle="collapse" aria-expanded="false"><i class="ri-table-line"></i><span>Table</span><i class="ri-arrow-right-s-line iq-arrow-right"></i></a>
+                                  <ul id="tables" class="iq-submenu collapse" data-bs-parent="#ui-elements">
+                                      <li class="">
+                                          <a href="https://templates.iqonic.design/product/lite/socialv/html/dist/dashboard/tables-basic.html"><i class="ri-table-line"></i>Basic Tables</a>
+                                      </li>
+                                      <li class="">
+                                          <a href="https://templates.iqonic.design/product/lite/socialv/html/dist/dashboard/data-table.html"><i class="ri-database-line"></i>Data Table</a>
+                                      </li>
+                                      <li class="">
+                                          <a href="https://templates.iqonic.design/product/lite/socialv/html/dist/dashboard/table-editable.html"><i class="ri-refund-line"></i>Editable Table</a></li>
+                                  </ul>
+                              </li>
+                              <li class="">
+                                  <a href="https://templates.iqonic.design/product/lite/socialv/html/dist/dashboard/index.html#icons" class="  collapsed" data-bs-toggle="collapse" aria-expanded="false"><i class="ri-list-check"></i><span>Icons</span><i class="ri-arrow-right-s-line iq-arrow-right"></i></a>
+                                  <ul id="icons" class="iq-submenu collapse" data-bs-parent="#ui-elements">
+                                      <li class="">
+                                          <a href="https://templates.iqonic.design/product/lite/socialv/html/dist/dashboard/icon-fontawesome-5.html"><i class="ri-facebook-fill"></i>Font Awesome 5</a>
+                                      </li>
+                                      <li class="">
+                                          <a href="https://templates.iqonic.design/product/lite/socialv/html/dist/dashboard/icon-lineawesome.html"><i class="ri-keynote-line"></i>line Awesome</a>
+                                      </li>
+                                      <li class="">
+                                          <a href="https://templates.iqonic.design/product/lite/socialv/html/dist/dashboard/icon-remixicon.html"><i class="ri-remixicon-line"></i>Remixicon</a>
+                                      </li>
+                                  </ul>
+                              </li>
+                          </ul>
+                      </li>
+                      <li class="">
+                          <a href="https://templates.iqonic.design/product/lite/socialv/html/dist/dashboard/index.html#pages" class="  collapsed" data-bs-toggle="collapse" aria-expanded="false"><i class="ri-pages-line"></i><span>Pages</span><i class="ri-arrow-right-s-line iq-arrow-right"></i></a>
+                          <ul id="pages" class="iq-submenu collapse" data-bs-parent="#iq-sidebar-toggle">
+                              <li class="">
+                                  <a href="https://templates.iqonic.design/product/lite/socialv/html/dist/dashboard/index.html#authentication" class="  collapsed" data-bs-toggle="collapse" aria-expanded="false"><i class="ri-pages-line"></i><span>Authentication</span><i class="ri-arrow-right-s-line iq-arrow-right"></i></a>
+                                  <ul id="authentication" class="iq-submenu collapse" data-bs-parent="#pages">
+                                      <li class="">
+                                          <a href="https://templates.iqonic.design/product/lite/socialv/html/dist/dashboard/sign-in.html"><i class="ri-login-box-line"></i>Login</a>
+                                      </li>
+                                      <li class="">
+                                          <a href="https://templates.iqonic.design/product/lite/socialv/html/dist/dashboard/sign-up.html"><i class="ri-login-circle-line"></i>Register</a>
+                                      </li>
+                                      <li class="">
+                                          <a href="https://templates.iqonic.design/product/lite/socialv/html/dist/dashboard/pages-recoverpw.html"><i class="ri-record-mail-line"></i>Recover Password</a>
+                                      </li>
+                                      <li class="">
+                                          <a href="https://templates.iqonic.design/product/lite/socialv/html/dist/dashboard/pages-confirm-mail.html"><i class="ri-file-code-line"></i>Confirm Mail</a>
+                                      </li>
+                                      <li class="">
+                                          <a href="https://templates.iqonic.design/product/lite/socialv/html/dist/dashboard/pages-lock-screen.html"><i class="ri-lock-line"></i>Lock Screen</a>
+                                      </li>
+                                  </ul>
+                              </li>
+                              <li class="">
+                                  <a href="https://templates.iqonic.design/product/lite/socialv/html/dist/dashboard/index.html#extra-pages" class="  collapsed" data-bs-toggle="collapse" aria-expanded="false"><i class="ri-pantone-line"></i><span>Extra Pages</span><i class="ri-arrow-right-s-line iq-arrow-right"></i></a>
+                                  <ul id="extra-pages" class="iq-submenu collapse" data-bs-parent="#pages">
+                                      <li class="">
+                                          <a href="https://templates.iqonic.design/product/lite/socialv/html/dist/dashboard/pages-timeline.html"><i class="ri-map-pin-time-line"></i>Timeline</a>
+                                      </li>
+                                      <li class="">
+                                          <a href="https://templates.iqonic.design/product/lite/socialv/html/dist/dashboard/pages-invoice.html"><i class="ri-question-answer-line"></i>Invoice</a>
+                                      </li>
+                                      <li class="">
+                                          <a href="https://templates.iqonic.design/product/lite/socialv/html/dist/dashboard/blank-page.html"><i class="ri-invision-line"></i>Blank Page</a>
+                                      </li>
+                                      <li class="">
+                                          <a href="https://templates.iqonic.design/product/lite/socialv/html/dist/dashboard/pages-error.html"><i class="ri-error-warning-line"></i>Error 404</a>
+                                      </li>
+                                      <li class="">
+                                          <a href="https://templates.iqonic.design/product/lite/socialv/html/dist/dashboard/pages-error-500.html"><i class="ri-error-warning-line"></i>Error 500</a>
+                                      </li>
+                                      <li class="">
+                                          <a href="https://templates.iqonic.design/product/lite/socialv/html/dist/dashboard/pages-pricing.html"><i class="ri-price-tag-line"></i>Pricing</a>
+                                      </li>
+                                      <li class="">
+                                          <a href="https://templates.iqonic.design/product/lite/socialv/html/dist/dashboard/pages-pricing-one.html"><i class="ri-price-tag-2-line"></i>Pricing 1</a>
+                                      </li>
+                                      <li class="">
+                                          <a href="https://templates.iqonic.design/product/lite/socialv/html/dist/dashboard/pages-maintenance.html"><i class="ri-archive-line"></i>Maintenance</a>
+                                      </li>
+                                      <li class="">
+                                          <a href="https://templates.iqonic.design/product/lite/socialv/html/dist/dashboard/pages-comingsoon.html"><i class="ri-mastercard-line"></i>Coming Soon</a>
+                                      </li>
+                                      <li class="">
+                                          <a href="https://templates.iqonic.design/product/lite/socialv/html/dist/dashboard/pages-faq.html"><i class="ri-compasses-line"></i>Faq</a>
+                                      </li>
+                                  </ul>
+                              </li>
+                          </ul>
+                      </li>
+                  </ul>
+                  </nav>
+                  <div class="p-5"></div>
+              </div><div class="scrollbar-track scrollbar-track-x" style="display: none;"><div class="scrollbar-thumb scrollbar-thumb-x" style="width: 250px; transform: translate3d(0px, 0px, 0px);"></div></div><div class="scrollbar-track scrollbar-track-y" style="display: none;"><div class="scrollbar-thumb scrollbar-thumb-y" style="height: 746px; transform: translate3d(0px, 0px, 0px);"></div></div></div>
+          </div>
+      
+              <div class="iq-top-navbar">
+          <div class="iq-navbar-custom">
+              <nav class="navbar navbar-expand-lg navbar-light p-0">
+                  <div class="iq-navbar-logo d-flex justify-content-between">
+                      <a href="https://templates.iqonic.design/product/lite/socialv/html/dist/dashboard/index.html">
+                          <img src=".css/index_files/logo.png" class="img-fluid" alt="">
+                          <span>SocialV</span>
+                      </a>
+                      <div class="iq-menu-bt align-self-center">
+                          <div class="wrapper-menu">
+                              <div class="main-circle"><i class="ri-menu-line"></i></div>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="iq-search-bar device-search">
+                      <form action="https://templates.iqonic.design/product/lite/socialv/html/dist/dashboard/index.html#" class="searchbox">
+                          <a class="search-link" href="https://templates.iqonic.design/product/lite/socialv/html/dist/dashboard/index.html#"><i class="ri-search-line"></i></a>
+                          <input type="text" class="text search-input" placeholder="Search here...">
+                      </form>
+                  </div>
+                  <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-label="Toggle navigation">
+                      <i class="ri-menu-3-line"></i>
+                  </button>
+                  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                      <ul class="navbar-nav  ms-auto navbar-list">
+                          <li>
+                              <a href="https://templates.iqonic.design/product/lite/socialv/html/dist/dashboard/index.html" class="  d-flex align-items-center">
+                                  <!-- <i class="ri-home-line"></i> -->
+                                  Login
+                              </a>
+                          </li>
+                 
+                           <li class="nav-item dropdown">
+                              <a href="https://templates.iqonic.design/product/lite/socialv/html/dist/dashboard/index.html#" class="   d-flex align-items-center dropdown-toggle" id="drop-down-arrow" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                  <img src=" {% static 'css/index_files/1.jpg' %}" class="img-fluid rounded-circle me-3" alt="user">
+                                  <div class="caption">
+                                      <h6 class="mb-0 line-height">Bni Cyst</h6>
+                                  </div>
+                              </a>
+                              <div class="sub-drop dropdown-menu caption-menu" aria-labelledby="drop-down-arrow">
+                                  <div class="card shadow-none m-0">
+                                       <div class="card-header  bg-primary">
+                                          <div class="header-title">
+                                              <h5 class="mb-0 text-white">Hello Bni Cyst</h5>
+                                              <span class="text-white font-size-12">Available</span>
+                                          </div>
+                                      </div>
+                                      <div class="card-body p-0 ">
+                                          <a href="https://templates.iqonic.design/product/lite/socialv/html/dist/app/profile.html" class="iq-sub-card iq-bg-primary-hover">
+                                              <div class="d-flex align-items-center">
+                                                  <div class="rounded card-icon bg-soft-primary">
+                                                      <i class="ri-file-user-line"></i>
+                                                  </div>
+                                                  <div class="ms-3">
+                                                      <h6 class="mb-0 ">My Profile</h6>
+                                                      <p class="mb-0 font-size-12">View personal profile details.</p>
+                                                  </div>
+                                              </div>
+                                          </a>
+                                          <div class="d-inline-block w-100 text-center p-3">
+                                              <a class="btn btn-primary iq-sign-btn" href="https://templates.iqonic.design/product/lite/socialv/html/dist/dashboard/sign-in.html" role="button">Sign
+                                                  out<i class="ri-login-box-line ms-2"></i></a>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                          </li>
+                      </ul>               
+                  </div>
+              </nav>
+          </div>
+      </div>       <div class="right-sidebar-mini">
+           <div class="right-sidebar-panel p-0">
+              <div class="card shadow-none">
+                 <div class="card-body p-0">
+                    <div class="media-height p-3" data-scrollbar="true" tabindex="-1" style="overflow: hidden; outline: none;"><div class="scroll-content">
+                       <div class="d-flex align-items-center mb-4">
+                          <div class="iq-profile-avatar status-online">
+                             <img class="rounded-circle avatar-50" src=" {% static 'css/index_files/01.jpg' %}" alt="">
+                          </div>
+                          <div class="ms-3">
+                             <h6 class="mb-0">Anna Sthesia</h6>
+                             <p class="mb-0">Just Now</p>
+                          </div>
+                       </div>
+                       <div class="d-flex align-items-center mb-4">
+                          <div class="iq-profile-avatar status-online">
+                             <img class="rounded-circle avatar-50" src=" {% static 'css/index_files/02.jpg' %}" alt="">
+                          </div>
+                          <div class="ms-3">
+                             <h6 class="mb-0">Paul Molive</h6>
+                             <p class="mb-0">Admin</p>
+                          </div>
+                       </div>
+                       <div class="d-flex align-items-center mb-4">
+                          <div class="iq-profile-avatar status-online">
+                             <img class="rounded-circle avatar-50" src=" {% static 'css/index_files/03.jpg' %}" alt="">
+                          </div>
+                          <div class="ms-3">
+                             <h6 class="mb-0">Anna Mull</h6>
+                             <p class="mb-0">Admin</p>
+                          </div>
+                       </div>
+                       <div class="d-flex align-items-center mb-4">
+                          <div class="iq-profile-avatar status-online">
+                             <img class="rounded-circle avatar-50" src=" {% static 'css/index_files/04.jpg' %}" alt="">
+                          </div>
+                          <div class="ms-3">
+                             <h6 class="mb-0">Paige Turner</h6>
+                             <p class="mb-0">Admin</p>
+                          </div>
+                       </div>
+                       <div class="d-flex align-items-center mb-4">
+                          <div class="iq-profile-avatar status-online">
+                             <img class="rounded-circle avatar-50" src=" {% static 'css/index_files/11.jpg' %}" alt="">
+                          </div>
+                          <div class="ms-3">
+                             <h6 class="mb-0">Bob Frapples</h6>
+                             <p class="mb-0">Admin</p>
+                          </div>
+                       </div>
+                       <div class="d-flex align-items-center mb-4">
+                          <div class="iq-profile-avatar status-online">
+                             <img class="rounded-circle avatar-50" src=" {% static 'css/index_files/02.jpg' %}" alt="">
+                          </div>
+                          <div class="ms-3">
+                             <h6 class="mb-0">Barb Ackue</h6>
+                             <p class="mb-0">Admin</p>
+                          </div>
+                       </div>
+                       <div class="d-flex align-items-center mb-4">
+                          <div class="iq-profile-avatar status-online">
+                             <img class="rounded-circle avatar-50" src=" {% static 'css/index_files/03.jpg' %}" alt="">
+                          </div>
+                          <div class="ms-3">
+                             <h6 class="mb-0">Greta Life</h6>
+                             <p class="mb-0">Admin</p>
+                          </div>
+                       </div>
+                       <div class="d-flex align-items-center mb-4">
+                          <div class="iq-profile-avatar status-away">
+                             <img class="rounded-circle avatar-50" src=" {% static 'css/index_files/12.jpg' %}" alt="">
+                          </div>
+                          <div class="ms-3">
+                             <h6 class="mb-0">Ira Membrit</h6>
+                             <p class="mb-0">Admin</p>
+                          </div>
+                       </div>
+                       <div class="d-flex align-items-center mb-4">
+                          <div class="iq-profile-avatar status-away">
+                             <img class="rounded-circle avatar-50" src=" {% static 'css/index_files/01.jpg' %}" alt="">
+                          </div>
+                          <div class="ms-3">
+                             <h6 class="mb-0">Pete Sariya</h6>
+                             <p class="mb-0">Admin</p>
+                          </div>
+                       </div>
+                       <div class="d-flex align-items-center">
+                          <div class="iq-profile-avatar">
+                             <img class="rounded-circle avatar-50" src=" {% static 'css/index_files/02.jpg' %}" alt="">
+                          </div>
+                          <div class="ms-3">
+                             <h6 class="mb-0">Monty Carlo</h6>
+                             <p class="mb-0">Admin</p>
+                          </div>
+                       </div>
+                    </div><div class="scrollbar-track scrollbar-track-x" style="display: none;"><div class="scrollbar-thumb scrollbar-thumb-x" style="width: 260px; transform: translate3d(0px, 0px, 0px);"></div></div><div class="scrollbar-track scrollbar-track-y" style="display: block;"><div class="scrollbar-thumb scrollbar-thumb-y" style="height: 657.271px; transform: translate3d(0px, 0px, 0px);"></div></div></div>
+                    <div class="right-sidebar-toggle bg-primary text-white mt-3">
+                       <i class="ri-arrow-left-line side-left-icon"></i>
+                       <i class="ri-arrow-right-line side-right-icon"><span class="ms-3 d-inline-block">Close Menu</span></i>
+                    </div>
+                 </div>
+              </div>
+           </div>
+        </div>       <div id="content-page" class="content-page">
+<div class="container">
+   <div class="row">
+      <div class="col-lg-8 row m-0 p-0">
+         <div class="col-sm-12">
+            <div id="post-modal-data" class="card card-block card-stretch card-height">
+               <div class="card-header d-flex justify-content-between">
+                  <div class="header-title">
+                     <h4 class="card-title">Discusiones</h4>
+                     <span>2000 discusiones disponibles</span>
+                  </div>
+                  <ul class=" post-opt-block d-flex list-inline m-0 p-0 flex-wrap">
+                     <li class="me-3 mb-md-0 mb-2">
+                        <a href="https://templates.iqonic.design/product/lite/socialv/html/dist/dashboard/index.html#" class="btn btn-soft-primary">
+                           <img src=".css/index_files/07.png" alt="icon" class="img-fluid me-2"> Crear discusion
+                        </a>
+                     </li>
+                  </ul>
+               </div>
+               
+               <div class="modal fade" id="post-modal" tabindex="-1" aria-labelledby="post-modalLabel" aria-hidden="true">
+                  <div class="modal-dialog   modal-fullscreen-sm-down">
+                     <div class="modal-content">
+                        <div class="modal-header">
+                           <h5 class="modal-title" id="post-modalLabel">Discusiones:
+                           </h5>
+                           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><i class="ri-close-fill"></i></button>
+                        </div>
+                        <div class="modal-body">
+                           <div class="d-flex align-items-center">
+                              <div class="user-img">
+                                 <img src=" {% static 'css/index_files/1.jpg' %}" alt="userimg" class="avatar-60 rounded-circle img-fluid">
+                              </div>
+                              <form class="post-text ms-3 w-100" action="javascript:void();">
+                                 <input type="text" class="form-control rounded" placeholder="Write something here..." style="border:none;">
+                              </form>
+                           </div>
+                           <hr>
+                           <ul class="d-flex flex-wrap align-items-center list-inline m-0 p-0">
+                              <li class="col-md-6 mb-3">
+                                 <div class="bg-soft-primary rounded p-2 pointer me-3"><a href="https://templates.iqonic.design/product/lite/socialv/html/dist/dashboard/index.html#"></a><img src=".css/index_files/07.png" alt="icon" class="img-fluid"> Photo/Video</div>
+                              </li>
+                              <li class="col-md-6 mb-3">
+                                 <div class="bg-soft-primary rounded p-2 pointer me-3"><a href="https://templates.iqonic.design/product/lite/socialv/html/dist/dashboard/index.html#"></a><img src=".css/index_files/08.png" alt="icon" class="img-fluid"> Tag Friend</div>
+                              </li>
+                              <li class="col-md-6 mb-3">
+                                 <div class="bg-soft-primary rounded p-2 pointer me-3"><a href="https://templates.iqonic.design/product/lite/socialv/html/dist/dashboard/index.html#"></a><img src=".css/index_files/09.png" alt="icon" class="img-fluid"> Feeling/Activity</div>
+                              </li>
+                              <li class="col-md-6 mb-3">
+                                 <div class="bg-soft-primary rounded p-2 pointer me-3"><a href="https://templates.iqonic.design/product/lite/socialv/html/dist/dashboard/index.html#"></a><img src=".css/index_files/10.png" alt="icon" class="img-fluid"> Check in</div>
+                              </li>
+                              <li class="col-md-6 mb-3">
+                                 <div class="bg-soft-primary rounded p-2 pointer me-3"><a href="https://templates.iqonic.design/product/lite/socialv/html/dist/dashboard/index.html#"></a><img src=".css/index_files/11.png" alt="icon" class="img-fluid"> Live Video</div>
+                              </li>
+                              <li class="col-md-6 mb-3">
+                                 <div class="bg-soft-primary rounded p-2 pointer me-3"><a href="https://templates.iqonic.design/product/lite/socialv/html/dist/dashboard/index.html#"></a><img src=".css/index_files/12.png" alt="icon" class="img-fluid"> Gif</div>
+                              </li>
+                              <li class="col-md-6 mb-3">
+                                 <div class="bg-soft-primary rounded p-2 pointer me-3"><a href="https://templates.iqonic.design/product/lite/socialv/html/dist/dashboard/index.html#"></a><img src=".css/index_files/13.png" alt="icon" class="img-fluid"> Watch Party</div>
+                              </li>
+                              <li class="col-md-6 mb-3">
+                                 <div class="bg-soft-primary rounded p-2 pointer me-3"><a href="https://templates.iqonic.design/product/lite/socialv/html/dist/dashboard/index.html#"></a><img src=".css/index_files/14.png" alt="icon" class="img-fluid"> Play with Friends</div>
+                              </li>
+                           </ul>
+                           <hr>
+                           <div class="other-option">
+                              <div class="d-flex align-items-center justify-content-between">
+                                 <div class="d-flex align-items-center">
+                                    <div class="user-img me-3">
+                                       <img src=" {% static 'css/index_files/1.jpg' %}" alt="userimg" class="avatar-60 rounded-circle img-fluid">
+                                    </div>
+                                    <h6>Your Story</h6>
+                                 </div>
+                                 <div class="card-post-toolbar">
+                                    <div class="dropdown">
+                                       <span class="dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" role="button">
+                                       <span class="btn btn-primary">Friend</span>
+                                       </span>
+                                       <div class="dropdown-menu m-0 p-0">
+                                          <a class="dropdown-item p-3" href="https://templates.iqonic.design/product/lite/socialv/html/dist/dashboard/index.html#">
+                                             <div class="d-flex align-items-top">
+                                                <i class="ri-user-unfollow-line h4"></i>
+                                                <div class="data ms-2">
+                                                   <h6>Friends except</h6>
+                                                   <p class="mb-0">Don't show to some friends</p>
+                                                </div>
+                                             </div>
+                                          </a>
+                                       </div>
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
+                           <button type="submit" class="btn btn-primary d-block w-100 mt-3">Post</button>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <div class="col-sm-12">
+            <div class="card card-block card-stretch card-height">
+               <div class="card-body">
+                  <div class="user-post-data">
+                     <div class="d-flex justify-content-between">
+                        <div class="me-3">
+                           <img class="rounded-circle img-fluid" src=" {% static 'css/index_files/01.jpg' %}" alt="">
+                        </div>
+                        <div class="w-100">
+                           <div class="d-flex justify-content-between">
+                              <div class="">
+                                 <h5 class="mb-0 d-inline-block">Anna Sthesia</h5>
+                                 <span class="mb-0 d-inline-block">Add New Post</span>
+                              </div>
+                              <div class="card-post-toolbar">
+                                 <div class="dropdown">
+                                    <span class="dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" role="button">
+                                    <i class="ri-more-fill"></i>
+                                    </span>
+                                    <div class="dropdown-menu m-0 p-0">
+                                       
+                                       <a class="dropdown-item p-3" href="https://templates.iqonic.design/product/lite/socialv/html/dist/dashboard/index.html#">
+                                          <div class="d-flex align-items-top">
+                                             <i class="ri-close-circle-line h4"></i>
+                                             <div class="data ms-2">
+                                                <h6>Hide Post</h6>
+                                                <p class="mb-0">See fewer posts like this.</p>
+                                             </div>
+                                          </div>
+                                       </a>
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="mt-3">
+                     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi nulla dolor, ornare at commodo non, feugiat non nisi. Phasellus faucibus mollis pharetra. Proin blandit ac massa sed rhoncus</p>
+                  </div>
+                  <div class="user-post">
+
+                  </div>
+                  <div class="comment-area mt-3">
+                     <div class="d-flex justify-content-between align-items-center flex-wrap">
+                        <div class="like-block position-relative d-flex align-items-center">
+                          
+                           <div class="total-comment-block">
+                              <div class="dropdown">
+                                 <span class="dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" role="button">
+                                 20 Comment
+                                 </span>
+                                 <div class="dropdown-menu">
+                                    <a class="dropdown-item" href="https://templates.iqonic.design/product/lite/socialv/html/dist/dashboard/index.html#">Max Emum</a>
+                                    <a class="dropdown-item" href="https://templates.iqonic.design/product/lite/socialv/html/dist/dashboard/index.html#">Bill Yerds</a>
+                                    <a class="dropdown-item" href="https://templates.iqonic.design/product/lite/socialv/html/dist/dashboard/index.html#">Hap E. Birthday</a>
+                                    <a class="dropdown-item" href="https://templates.iqonic.design/product/lite/socialv/html/dist/dashboard/index.html#">Tara Misu</a>
+                                    <a class="dropdown-item" href="https://templates.iqonic.design/product/lite/socialv/html/dist/dashboard/index.html#">Midge Itz</a>
+                                    <a class="dropdown-item" href="https://templates.iqonic.design/product/lite/socialv/html/dist/dashboard/index.html#">Sal Vidge</a>
+                                    <a class="dropdown-item" href="https://templates.iqonic.design/product/lite/socialv/html/dist/dashboard/index.html#">Other</a>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                        
+                     </div>
+                    
+                  </div>
+               </div>
+            </div>
+         </div>
+
+      </div>
+      <div class="col-lg-4">
+         <div class="card">
+            <div class="card-header d-flex justify-content-between">
+               <div class="header-title">
+                  <h4 class="card-title">Recent activity</h4>
+               </div>
+            </div>
+            <div class="card-body">
+               <ul class="media-story list-inline m-0 p-0">
+                  <li class="d-flex align-items-center">
+                     <img  src="{% static 'css/index_no_files/02.jpg' %}" alt="story-img" class="rounded-circle img-fluid">
+                     <div class="stories-data ms-3">
+                        <h5>Paul molive</h5>
+                        <h6 style="font-size: 0.em; font-weight: bold; font-size:0.8em">Discusion: Son mejores los perros o los gatos</h6>
+                        <p class="mb-0">Tomorrow</p>
+                     </div>
+                  </li>
+               </ul>
+            </div>
+         </div>
+
+      </div>
+      <div class="col-sm-12 text-center">
+         <img src=".css/index_files/page-load-loader.gif" alt="loader" style="height: 100px;">
+      </div>
+   </div>
 </div>
+      </div>
+    </div>
+    <!-- Wrapper End-->
+    <footer class="iq-footer bg-white">
+       <div class="container-fluid">
+          <div class="row">
+             <div class="col-lg-6">
+                <ul class="list-inline mb-0">
+                   <li class="list-inline-item"><a href="https://templates.iqonic.design/product/lite/socialv/html/dist/dashboard/privacy-policy.html">Privacy Policy</a></li>
+                   <li class="list-inline-item"><a href="https://templates.iqonic.design/product/lite/socialv/html/dist/dashboard/terms-of-service.html">Terms of Use</a></li>
+                </ul>
+             </div>
+             <div class="col-lg-6 d-flex justify-content-end">
+                Copyright 2020 <a href="https://templates.iqonic.design/product/lite/socialv/html/dist/dashboard/index.html#">SocialV</a> All Rights Reserved.
+             </div>
+          </div>
+       </div>
+    </footer>    <!-- Backend Bundle JavaScript -->
+    <script src=".css/index_files/libs.min.js.download"></script>
+    <!-- slider JavaScript -->
+    <script src=".css/index_files/slider.js.download"></script>
+    <!-- masonry JavaScript --> 
+    <script src=".css/index_files/masonry.pkgd.min.js.download"></script>
+    <!-- SweetAlert JavaScript -->
+    <script src=".css/index_files/enchanter.js.download"></script>
+    <!-- SweetAlert JavaScript -->
+    <script src=".css/index_files/sweetalert.js.download"></script>
+    <!-- app JavaScript -->
+    <script src=".css/index_files/weather-chart.js.download"></script>
+    <script src=".css/index_files/app.js.download"></script>
+    <script src=".css/index_files/datepicker.min.js.download"></script>
+    <script src=".css/index_files/lottie.js.download"></script>
     
-{% endblock content %}
-    
 
+    <!-- offcanvas start -->
+ 
+    <div class="offcanvas offcanvas-bottom share-offcanvas" tabindex="-1" id="share-btn" aria-labelledby="shareBottomLabel">
+       <div class="offcanvas-header">
+          <h5 class="offcanvas-title" id="shareBottomLabel">Share</h5>
+          <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+       </div>
+       <div class="offcanvas-body small">
+          <div class="d-flex flex-wrap align-items-center">
+             <div class="text-center me-3 mb-3">
+                <img src=".css/index_files/08(1).png" class="img-fluid rounded mb-2" alt="">
+                <h6>Facebook</h6>
+             </div>
+             <div class="text-center me-3 mb-3">
+                <img src=".css/index_files/09(1).png" class="img-fluid rounded mb-2" alt="">
+                <h6>Twitter</h6>
+             </div>
+             <div class="text-center me-3 mb-3">
+                <img src=".css/index_files/10(1).png" class="img-fluid rounded mb-2" alt="">
+                <h6>Instagram</h6>
+             </div>
+             <div class="text-center me-3 mb-3">
+                <img src=".css/index_files/11(1).png" class="img-fluid rounded mb-2" alt="">
+                <h6>Google Plus</h6>
+             </div>
+             <div class="text-center me-3 mb-3">
+                <img src=".css/index_files/13(1).png" class="img-fluid rounded mb-2" alt="">
+                <h6>In</h6>
+             </div>
+             <div class="text-center me-3 mb-3">
+                <img src=".css/index_files/12(1).png" class="img-fluid rounded mb-2" alt="">
+                <h6>YouTube</h6>
+             </div>
+          </div>
+       </div>
+    </div>
+  
 
-
+<script type="text/javascript" id="" charset="">!function(b,e,f,g,a,c,d){b.fbq||(a=b.fbq=function(){a.callMethod?a.callMethod.apply(a,arguments):a.queue.push(arguments)},b._fbq||(b._fbq=a),a.push=a,a.loaded=!0,a.version="2.0",a.queue=[],c=e.createElement(f),c.async=!0,c.src=g,d=e.getElementsByTagName(f)[0],d.parentNode.insertBefore(c,d))}(window,document,"script","https://connect.facebook.net/en_US/fbevents.js");fbq("init","426660348535524");fbq("track","PageView");fbq("trackCustom",window.tag_manager_event,{product:window.tag_manager_product});</script>
+<noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=426660348535524&amp;ev=PageView&amp;noscript=1"></noscript>
+</body></html>

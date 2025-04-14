@@ -5,3 +5,8 @@
 <h3>menu</h3>
 
 <a href="{% url 'logout' %}">Logout</a>
+
+<form method="GET" action="{% url 'home' %}">
+    <input type="text" name='q' placeholder="Busque discusiones ...">
+    <input type="submit">
+</form>
